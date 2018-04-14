@@ -28,6 +28,12 @@ public class User {
         this.email = email;
     }
 
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
     public ROLE getRole() {
         return role;
     }

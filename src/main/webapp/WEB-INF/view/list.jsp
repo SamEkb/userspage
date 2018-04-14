@@ -43,7 +43,7 @@
         </tbody>
     </table>
     <p align="left"><a class="btn btn-info btn-xs" href="create" role="button">Add User</a>
-    <p align="left"><a class="btn btn-info btn-xs" href="/" role="button">Back</a></p>
+    <p align="left"><a class="btn btn-info btn-xs" href="/adminPage" role="button">Back</a></p>
 </div>
 </body>
 </html>

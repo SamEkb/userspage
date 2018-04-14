@@ -29,6 +29,7 @@ public class CreateUserServlet extends HttpServlet {
         User user = new User(name, login, password, role, email);
 
         if (!requestValidator(req)) {
+            req.setAttribute("msg", "Please input all information");
             req.getRequestDispatcher(INDEX).forward(req, resp);
         } else {
             userDao.insert(user);
@@ -39,9 +40,11 @@ public class CreateUserServlet extends HttpServlet {
     private boolean requestValidator(HttpServletRequest req) {
         String name = req.getParameter("name");
         String login = req.getParameter("login");
+        String password = req.getParameter("password");
         String email = req.getParameter("email");
         return name != null && name.length() > 0 &&
                 login != null && login.length() > 0 &&
+                password !=null && password.length() > 0 &&
                 email != null && email.length() > 0;
     }
 

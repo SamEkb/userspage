@@ -141,4 +141,21 @@ public class UserDaoImpl implements UserDao {
         }
         return result;
     }
+
+    public int findByLogin(String login) {
+        int result = 0;
+        try (Connection connection = connectionFactory.getConnection();
+             PreparedStatement ps = connection.prepareStatement("SELECT id FROM  users WHERE login=?")) {
+            ps.setString(1, login);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                result = rs.getInt("id");
+            }
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+        return result;
+    }
 }

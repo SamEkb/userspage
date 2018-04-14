@@ -25,7 +25,7 @@ public class UpdateUserServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         int id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
         String login = req.getParameter("login");
@@ -35,7 +35,8 @@ public class UpdateUserServlet extends HttpServlet {
         UserDaoImpl userDao = new UserDaoImpl();
 
         if (!requestValidator(req)) {
-            resp.sendRedirect(req.getContextPath() + "/list");
+            req.setAttribute("msg", "Please input all information");
+            req.getRequestDispatcher(UPDATE).forward(req, resp);
         } else {
             User user = userDao.findById(id);
             user.setName(name);
@@ -52,9 +53,11 @@ public class UpdateUserServlet extends HttpServlet {
     private boolean requestValidator(HttpServletRequest req) {
         String name = req.getParameter("name");
         String login = req.getParameter("login");
+        String password = req.getParameter("password");
         String email = req.getParameter("email");
         return name != null && name.length() > 0 &&
                 login != null && login.length() > 0 &&
+                password !=null && password.length() > 0 &&
                 email != null && email.length() > 0;
     }
 }
