@@ -8,7 +8,6 @@
 <body>
 <div class="container">
     <h1>Save User</h1>
-    ${msg}
     <form method="post" action="edit">
         <input class="form-control" name="id" value="${user.id}" type="hidden">
 

@@ -22,10 +22,10 @@
 
         <div class="container">
             <input type="submit" class="btn btn-info" value="Sign in">
-            <a class="btn btn-info" href="register" role="button">Sign up</a>
         </div>
 
     </form>
+    <p align="left"><a class="btn btn-info btn-xs" href="register" role="button">Sign up</a>
 </div>
 </body>
 </html>

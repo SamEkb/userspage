@@ -16,7 +16,7 @@ public class UpdateUserServletTest {
     /**
      * Страница изменения.
      */
-    private static final String UPDATE = "/WEB-INF/view/update.jsp";
+    private static final String UPDATE = "/WEB-INF/view/adminUpdate.jsp";
 
     /**
      * HttpServletRequest.

@@ -1,5 +1,6 @@
 package ru.skilanov.controller;
 
+import ru.skilanov.controller.validator.AdminValidator;
 import ru.skilanov.dao.UserDaoImpl;
 import ru.skilanov.model.User;
 
@@ -19,6 +20,7 @@ public class CreateUserServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AdminValidator adminValidator = new AdminValidator();
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
@@ -28,24 +30,23 @@ public class CreateUserServlet extends HttpServlet {
 
         User user = new User(name, login, password, role, email);
 
-        if (!requestValidator(req)) {
-            req.setAttribute("msg", "Please input all information");
+        if (adminValidator.requestValidator(req)) {
             req.getRequestDispatcher(INDEX).forward(req, resp);
         } else {
             userDao.insert(user);
             resp.sendRedirect(req.getContextPath() + "/list");
         }
     }
-
-    private boolean requestValidator(HttpServletRequest req) {
-        String name = req.getParameter("name");
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
-        String email = req.getParameter("email");
-        return name != null && name.length() > 0 &&
-                login != null && login.length() > 0 &&
-                password !=null && password.length() > 0 &&
-                email != null && email.length() > 0;
-    }
+//
+//    private boolean requestValidator(HttpServletRequest req) {
+//        String name = req.getParameter("name");
+//        String login = req.getParameter("login");
+//        String password = req.getParameter("password");
+//        String email = req.getParameter("email");
+//        return name != null && name.length() > 0 &&
+//                login != null && login.length() > 0 &&
+//                password !=null && password.length() > 0 &&
+//                email != null && email.length() > 0;
+//    }
 
 }

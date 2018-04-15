@@ -1,5 +1,6 @@
 package ru.skilanov.controller;
 
+import ru.skilanov.controller.validator.AdminValidator;
 import ru.skilanov.dao.UserDaoImpl;
 import ru.skilanov.model.User;
 
@@ -17,16 +18,19 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AdminValidator adminValidator = new AdminValidator();
         String name = req.getParameter("name");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-//        User.ROLE role = req.getParameter("role");
         String email = req.getParameter("email");
         UserDaoImpl userDao = new UserDaoImpl();
 
-        User user = new User(name, login, password, User.ROLE.USER, email);
-        userDao.insert(user);
-
-        resp.sendRedirect("/");
+        if (adminValidator.requestValidator(req)) {
+            resp.sendRedirect(req.getContextPath() + "/register");
+        } else {
+            User user = new User(name, login, password, User.ROLE.USER, email);
+            userDao.insert(user);
+            resp.sendRedirect("/");
+        }
     }
 }

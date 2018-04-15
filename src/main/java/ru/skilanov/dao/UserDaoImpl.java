@@ -116,7 +116,7 @@ public class UserDaoImpl implements UserDao {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                result=true;
+                result = true;
             }
         } catch (SQLException sqle) {
             sqle.printStackTrace();
@@ -134,7 +134,7 @@ public class UserDaoImpl implements UserDao {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-               result= User.ROLE.valueOf(rs.getString("role"));
+                result = User.ROLE.valueOf(rs.getString("role"));
             }
         } catch (SQLException sqle) {
             sqle.printStackTrace();
@@ -142,11 +142,13 @@ public class UserDaoImpl implements UserDao {
         return result;
     }
 
-    public int findByLogin(String login) {
+    @Override
+    public int findByLogin(String login, String password) {
         int result = 0;
         try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement ps = connection.prepareStatement("SELECT id FROM  users WHERE login=?")) {
+             PreparedStatement ps = connection.prepareStatement("SELECT id FROM  users WHERE login=? AND password=?")) {
             ps.setString(1, login);
+            ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {

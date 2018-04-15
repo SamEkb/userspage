@@ -1,10 +1,15 @@
 package ru.skilanov.controller.filter;
 
+import ru.skilanov.dao.UserDaoImpl;
+import ru.skilanov.model.User;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+
+import static java.util.Objects.nonNull;
 
 public class AuthenticationFilter implements Filter {
     @Override
@@ -17,17 +22,39 @@ public class AuthenticationFilter implements Filter {
 
     }
 
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        HttpSession session = request.getSession();
-      //  String uri = request.getRequestURI();
+        UserDaoImpl dao = new UserDaoImpl();
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+        int id = dao.findByLogin(login, password);
 
-        if (session == null && session.getAttribute("user") == null) {
-            request.getRequestDispatcher("/WEB-INF/view/index.jsp").forward(request, response);
+        User user = dao.findById(id);
+
+        HttpSession session = request.getSession();
+
+        if (nonNull(session) && nonNull(session.getAttribute("user"))) {
+            User role = (User) session.getAttribute("user");
+            moveToMenu(request, response, role.getRole());
+        } else if (dao.userIsExist(login, password)) {
+            User.ROLE role = dao.getRoleByLoginPassword(login, password);
+            request.getSession().setAttribute("user", user);
+            moveToMenu(request, response, role);
         } else {
-            filterChain.doFilter(request, response);
+            moveToMenu(request, response, User.ROLE.UNKNOWN);
+        }
+    }
+
+    private void moveToMenu(HttpServletRequest req, HttpServletResponse res, User.ROLE role) throws ServletException, IOException {
+        if (role.equals(User.ROLE.ADMIN)) {
+            req.getRequestDispatcher("/WEB-INF/view/adminPage.jsp").forward(req, res);
+        } else if (role.equals(User.ROLE.USER)) {
+            req.getRequestDispatcher("/WEB-INF/view/userPage.jsp").forward(req, res);
+        } else {
+            req.getRequestDispatcher("/WEB-INF/view/index.jsp").forward(req, res);
         }
     }
 }

@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Add user</title>
@@ -18,7 +17,6 @@
 
 <div class="container">
     <h1>Save User</h1>
-    ${msg}
     <form method="post" action="/create">
         <div class="form-group">
             <label>Name</label>

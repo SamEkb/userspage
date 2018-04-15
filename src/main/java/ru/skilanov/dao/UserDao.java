@@ -19,4 +19,6 @@ public interface UserDao {
     boolean userIsExist(String login, String password);
 
     User.ROLE getRoleByLoginPassword(String login, String password);
+
+    int findByLogin(String login, String password);
 }

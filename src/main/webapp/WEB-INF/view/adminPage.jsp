@@ -14,7 +14,7 @@
 </head>
 <body>
 <h1>Hello ADMIN!</h1>
-<p align="left"><a class="btn btn-info btn-xs" href="list" role="button">To users list</a>
+<p align="left"><a class="btn btn-info btn-xs" href="/list" role="button">To users list</a>
 <p align="left"><a class="btn btn-info btn-xs" href="logout" role="button">Logout</a></p>
 </body>
 </html>
