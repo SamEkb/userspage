@@ -15,7 +15,6 @@ public class AdminValidator {
         return name == null || name.length() <= 0 ||
                 login == null || login.length() <= 0 ||
                 password == null || password.length() <= 0 ||
-//                role.equals("ADMIN") || role!="USER" ||
                 email == null || email.length() <= 0;
     }
 }
