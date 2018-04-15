@@ -1,11 +1,13 @@
 package ru.skilanov.controller;
 
+import org.apache.struts.mock.MockServletContext;
 import org.junit.Before;
 import org.junit.Test;
 import ru.skilanov.dao.UserDaoImpl;
 import ru.skilanov.model.User;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,6 +1,7 @@
 package ru.skilanov.controller.filter;
 
 import ru.skilanov.dao.UserDaoImpl;
+import ru.skilanov.database.ConnectionFactory;
 import ru.skilanov.model.User;
 
 import javax.servlet.*;
@@ -12,9 +13,10 @@ import java.io.IOException;
 import static java.util.Objects.nonNull;
 
 public class AuthenticationFilter implements Filter {
+    private ConnectionFactory connectionFactory = ConnectionFactory.getInstance();
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
     }
 
     @Override
@@ -27,7 +29,7 @@ public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        UserDaoImpl dao = new UserDaoImpl();
+        UserDaoImpl dao = new UserDaoImpl(connectionFactory);
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         int id = dao.findByLogin(login, password);

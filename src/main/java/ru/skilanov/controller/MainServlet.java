@@ -1,8 +1,5 @@
 package ru.skilanov.controller;
 
-import ru.skilanov.dao.UserDaoImpl;
-import ru.skilanov.model.User;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

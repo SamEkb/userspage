@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao {
+    private static final String SELECT_ID = "SELECT id FROM  users WHERE login=? AND password=?";
     private static final String SELECT_ALL = "SELECT * FROM users";
     private static final String INSERT = "INSERT INTO users (name, login, password, role, email) VALUES (?,?,?,?,?)";
     private static final String DELETE = "DELETE FROM users WHERE id=?";
@@ -19,13 +20,17 @@ public class UserDaoImpl implements UserDao {
     private static final String FIND_BY_LOGIN_AND_PASS = "SELECT * FROM users WHERE login=? AND password=?";
     private static final String FIND_ROLE_BY_LOGIN_AND_PASSWORD = "SELECT role FROM users WHERE login=? AND password=?";
 
-    private ConnectionFactory connectionFactory = ConnectionFactory.getInstance();
+    private ConnectionFactory connectionFactory;
+
+    public UserDaoImpl(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
+    }
 
     @Override
     public List<User> getAll() {
         List<User> users = new ArrayList<>();
-        try (Connection connection = connectionFactory.getConnection()) {
-            PreparedStatement st = connection.prepareStatement(SELECT_ALL);
+        try (Connection connection = connectionFactory.getConnection();
+            PreparedStatement st = connection.prepareStatement(SELECT_ALL)){
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 users.add(new User(
@@ -44,8 +49,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void insert(User user) {
-        try (Connection connection = connectionFactory.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(INSERT);
+        try (Connection connection = connectionFactory.getConnection();
+            PreparedStatement ps = connection.prepareStatement(INSERT)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getLogin());
             ps.setString(3, user.getPassword());
@@ -59,8 +64,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void deleteById(int id) {
-        try (Connection connection = connectionFactory.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(DELETE);
+        try (Connection connection = connectionFactory.getConnection();
+            PreparedStatement ps = connection.prepareStatement(DELETE)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException sqle) {
@@ -70,8 +75,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void update(User user) {
-        try (Connection connection = connectionFactory.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(UPDATE);
+        try (Connection connection = connectionFactory.getConnection();
+            PreparedStatement ps = connection.prepareStatement(UPDATE)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getLogin());
             ps.setString(3, user.getPassword());
@@ -86,8 +91,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findById(int id) {
-        try (Connection connection = connectionFactory.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(FIND_BY_ID);
+        try (Connection connection = connectionFactory.getConnection();
+            PreparedStatement ps = connection.prepareStatement(FIND_BY_ID)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
@@ -109,8 +114,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean userIsExist(String login, String password) {
         boolean result = false;
-        try (Connection connection = connectionFactory.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(FIND_BY_LOGIN_AND_PASS);
+        try (Connection connection = connectionFactory.getConnection();
+            PreparedStatement ps = connection.prepareStatement(FIND_BY_LOGIN_AND_PASS)) {
             ps.setString(1, login);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
@@ -127,8 +132,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User.ROLE getRoleByLoginPassword(String login, String password) {
         User.ROLE result = User.ROLE.UNKNOWN;
-        try (Connection connection = connectionFactory.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(FIND_ROLE_BY_LOGIN_AND_PASSWORD);
+        try (Connection connection = connectionFactory.getConnection();
+            PreparedStatement ps = connection.prepareStatement(FIND_ROLE_BY_LOGIN_AND_PASSWORD)) {
             ps.setString(1, login);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
@@ -146,7 +151,7 @@ public class UserDaoImpl implements UserDao {
     public int findByLogin(String login, String password) {
         int result = 0;
         try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement ps = connection.prepareStatement("SELECT id FROM  users WHERE login=? AND password=?")) {
+             PreparedStatement ps = connection.prepareStatement(SELECT_ID)) {
             ps.setString(1, login);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();

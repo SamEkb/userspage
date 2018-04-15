@@ -53,7 +53,7 @@ public class UpdateUserServletTest {
     public void whenDoGetThenReturnRightPage() throws ServletException, IOException {
         RequestDispatcher requestDispatcher = mock(RequestDispatcher.class);
 
-        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("id")).thenReturn("55");
         when(request.getRequestDispatcher(UPDATE)).thenReturn(requestDispatcher);
 
         updateUserServlet.doGet(request, response);

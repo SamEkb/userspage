@@ -13,11 +13,16 @@ import java.util.List;
 
 public class AllUsersServlet extends HttpServlet {
     private static final String LIST_OF_USERS = "/WEB-INF/view//list.jsp";
+    private UserDaoImpl userDao;
+
+    @Override
+    public void init() throws ServletException {
+        userDao = (UserDaoImpl) getServletContext().getAttribute("userDao");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         resp.setContentType("text/html");
-        UserDaoImpl userDao = new UserDaoImpl();
         List<User> users = userDao.getAll();
         req.getServletContext().setAttribute("users", users);
         req.getRequestDispatcher(LIST_OF_USERS).forward(req, resp);

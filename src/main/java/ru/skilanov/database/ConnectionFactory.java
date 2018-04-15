@@ -14,7 +14,7 @@ public class ConnectionFactory {
     private static ConnectionFactory connectionFactory;
     private BasicDataSource ds;
 
-    public ConnectionFactory() {
+    private ConnectionFactory() {
         ds = new BasicDataSource();
         ds.setDriverClassName(DRIVER);
         ds.setUsername(LOGIN);

@@ -11,6 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class RegisterServlet extends HttpServlet {
+    private UserDaoImpl userDao;
+
+    @Override
+    public void init() throws ServletException {
+        userDao = (UserDaoImpl) getServletContext().getAttribute("userDao");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(req, resp);
@@ -23,7 +30,6 @@ public class RegisterServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
-        UserDaoImpl userDao = new UserDaoImpl();
 
         if (adminValidator.requestValidator(req)) {
             resp.sendRedirect(req.getContextPath() + "/register");

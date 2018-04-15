@@ -5,6 +5,10 @@
 		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+    <listener>
+        <listener-class>ru.skilanov.controller.contextlistener.AppContextListener</listener-class>
+    </listener>
+
     <!--Фильтр для аутентификации-->
     <filter>
         <filter-name>AuthenticationFilter</filter-name>
