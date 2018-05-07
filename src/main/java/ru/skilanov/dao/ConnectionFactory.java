@@ -1,4 +1,4 @@
-package ru.skilanov.database;
+package ru.skilanov.dao;
 
 import org.apache.commons.dbcp.BasicDataSource;
 

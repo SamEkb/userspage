@@ -1,6 +1,5 @@
 package ru.skilanov.dao;
 
-import ru.skilanov.database.ConnectionFactory;
 import ru.skilanov.model.User;
 
 import java.sql.Connection;

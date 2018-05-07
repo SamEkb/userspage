@@ -1,7 +1,7 @@
 package ru.skilanov.controller.contextlistener;
 
 import ru.skilanov.dao.UserDaoImpl;
-import ru.skilanov.database.ConnectionFactory;
+import ru.skilanov.dao.ConnectionFactory;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;

@@ -1,7 +1,7 @@
 package ru.skilanov.controller.filter;
 
 import ru.skilanov.dao.UserDaoImpl;
-import ru.skilanov.database.ConnectionFactory;
+import ru.skilanov.dao.ConnectionFactory;
 import ru.skilanov.model.User;
 
 import javax.servlet.*;
