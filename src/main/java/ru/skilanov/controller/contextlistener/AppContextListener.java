@@ -7,10 +7,17 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+/**
+ * Слушатель контекста приложения.
+ */
 public class AppContextListener implements ServletContextListener {
     private ConnectionFactory connectionFactory = ConnectionFactory.getInstance();
     private UserDaoImpl userDao;
 
+    /**
+     * Инициализация слоя дао в контексте.
+     * @param sce ServletContextEvent
+     */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         userDao = new UserDaoImpl(connectionFactory);

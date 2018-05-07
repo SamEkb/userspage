@@ -12,19 +12,39 @@ import java.io.IOException;
 
 import static java.util.Objects.nonNull;
 
+/**
+ * Фильтр аутентификации и авторизации.
+ */
 public class AuthenticationFilter implements Filter {
     private ConnectionFactory connectionFactory = ConnectionFactory.getInstance();
 
+    /**
+     * Инициализация.
+     *
+     * @param filterConfig FilterConfig
+     * @throws ServletException ServletException
+     */
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
 
+    /**
+     * Закрытие.
+     */
     @Override
     public void destroy() {
 
     }
 
-
+    /**
+     * Метод служит для проведения аутентификации и авторизации.
+     *
+     * @param servletRequest  ServletRequest
+     * @param servletResponse ServletResponse
+     * @param filterChain     FilterChain
+     * @throws IOException      IOException
+     * @throws ServletException ServletException
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
@@ -50,6 +70,15 @@ public class AuthenticationFilter implements Filter {
         }
     }
 
+    /**
+     * Метод служит для перенаправления пользователя в соответствующий раздел после авторизации.
+     *
+     * @param req  HttpServletRequest
+     * @param res  HttpServletResponse
+     * @param role User.ROLE
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
+     */
     private void moveToMenu(HttpServletRequest req, HttpServletResponse res, User.ROLE role) throws ServletException, IOException {
         if (role.equals(User.ROLE.ADMIN)) {
             req.getRequestDispatcher("/WEB-INF/view/adminPage.jsp").forward(req, res);

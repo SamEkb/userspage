@@ -10,28 +10,66 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Сервлет создания пользователя.
+ */
 public class CreateUserServlet extends HttpServlet {
+    /**
+     * Страница jsp создания пользователя.
+     */
     private static final String INDEX = "/WEB-INF/view/create.jsp";
+    /**
+     * Страница всех пользователей.
+     */
+    private static final String LIST = "/list";
+    /**
+     * Константа дао.
+     */
+    private static final String DAO = "userDao";
+    /**
+     * дао.
+     */
     private UserDaoImpl userDao;
 
+    /**
+     * Инициализация. Получаем дао из контекста.
+     *
+     * @throws ServletException ServletException
+     */
     @Override
     public void init() throws ServletException {
-        userDao = (UserDaoImpl) getServletContext().getAttribute("userDao");
+        userDao = (UserDaoImpl) getServletContext().getAttribute(DAO);
     }
 
+    /**
+     * Гет метод для получения страницы создания пользователя.
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
+     */
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher(INDEX).forward(req, resp);
     }
 
+    /**
+     * Пост метод для создания нового пользователя.
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException ServletException
+     * @throws IOException      IOException
+     */
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AdminValidator adminValidator = new AdminValidator();
-        String name = req.getParameter("name");
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
-        User.ROLE role = User.getRole(req.getParameter("role"));
-        String email = req.getParameter("email");
+        String name = req.getParameter(User.NAME);
+        String login = req.getParameter(User.LOGIN);
+        String password = req.getParameter(User.PASSWORD);
+        User.ROLE role = User.getRole(req.getParameter(User.UROLE));
+        String email = req.getParameter(User.EMAIL);
 
         User user = new User(name, login, password, role, email);
 
@@ -39,7 +77,7 @@ public class CreateUserServlet extends HttpServlet {
             req.getRequestDispatcher(INDEX).forward(req, resp);
         } else {
             userDao.insert(user);
-            resp.sendRedirect(req.getContextPath() + "/list");
+            resp.sendRedirect(req.getContextPath() + LIST);
         }
     }
 }

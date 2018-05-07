@@ -5,6 +5,9 @@ import org.apache.commons.dbcp.BasicDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * Фабрика соединений.
+ */
 public class ConnectionFactory {
     private static final String DRIVER = "org.postgresql.Driver";
     private static final String URL = "jdbc:postgresql://localhost:5432/servlets";
@@ -14,6 +17,9 @@ public class ConnectionFactory {
     private static ConnectionFactory connectionFactory;
     private BasicDataSource ds;
 
+    /**
+     * Конструктор.
+     */
     private ConnectionFactory() {
         ds = new BasicDataSource();
         ds.setDriverClassName(DRIVER);
@@ -27,6 +33,11 @@ public class ConnectionFactory {
 
     }
 
+    /**
+     * Создаем соединение.
+     *
+     * @return ConnectionFactory
+     */
     public static ConnectionFactory getInstance() {
         if (connectionFactory == null) {
             connectionFactory = new ConnectionFactory();
@@ -36,6 +47,11 @@ public class ConnectionFactory {
         }
     }
 
+    /**
+     * Подключаемся.
+     *
+     * @return Connection
+     */
     public Connection getConnection() {
         try {
             return this.ds.getConnection();

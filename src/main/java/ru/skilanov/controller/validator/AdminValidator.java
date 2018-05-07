@@ -2,8 +2,17 @@ package ru.skilanov.controller.validator;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Валидация полей ввода.
+ */
 public class AdminValidator {
 
+    /**
+     * Метод валидации полей ввода.
+     *
+     * @param req HttpServletRequest
+     * @return boolean
+     */
     public boolean requestValidator(HttpServletRequest req) {
         String name = req.getParameter("name");
         String login = req.getParameter("login");

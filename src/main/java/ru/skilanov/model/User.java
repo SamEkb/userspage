@@ -1,6 +1,15 @@
 package ru.skilanov.model;
 
+/**
+ * Класс модель пользователя.
+ */
 public class User {
+    public static final String ID = "id";
+    public static final String NAME = "name";
+    public static final String LOGIN = "login";
+    public static final String PASSWORD = "password";
+    public static final String UROLE = "role";
+    public static final String EMAIL = "email";
     private int id;
     private String name;
     private String login;
@@ -34,10 +43,6 @@ public class User {
         this.password = password;
     }
 
-    public ROLE getRole() {
-        return role;
-    }
-
     public static ROLE getRole(String name) {
         ROLE role = null;
         if ("admin".equalsIgnoreCase(name)) {
@@ -45,6 +50,10 @@ public class User {
         } else if ("user".equalsIgnoreCase(name)) {
             role = ROLE.USER;
         }
+        return role;
+    }
+
+    public ROLE getRole() {
         return role;
     }
 
@@ -101,6 +110,9 @@ public class User {
                 ", email='" + email + '}';
     }
 
+    /**
+     * ENUM роли пользователя.
+     */
     public enum ROLE {
         USER, ADMIN, UNKNOWN
     }
