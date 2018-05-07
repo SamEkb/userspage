@@ -11,3 +11,5 @@ Java EE project
 3) Filters
 4) JDBC
 5) PostgreSQL
+6) JUnit
+7) Mockito
